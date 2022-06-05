@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-int n, max = -1099, min1, sum, min2, g, i2, i;
+int n, max = -1099, min1, sum, min2, g, i, i;
 void fill(int n, int a[]) {
   for (i = 0; i < n; i++)
     a[i] = rand() % 101 - 50;
@@ -10,38 +10,50 @@ void fill(int n, int a[]) {
 
 void find(int n) {
   int A[n];
+  int t1 = 0, t2 = 0;
   fill(n, A);
-  for (i = 0; i < n; i++)
-    printf("%4d", A[i]);
-
-  printf("\n");
+  // min1 = A[0];
+  // min2 = A[1];
   min1 = 1000;
   min2 = 1000;
 
-  for (i2 = 0; i2 < n - 1; i2++) {
-    sum = A[i2] + A[i2 + 1];
-    if (i2 == n)
-      sum = A[i2] + A[i2 - 1];
+  //Поиск max
+  for (i = 0; i < n; i++) {
+    sum = A[i] + A[i + 1];
+    if (i == n - 1)
+      sum = A[i] + A[i - 1];
 
     if (sum > max)
       max = sum;
+  }
 
-    if (A[i2] <= min1) {
+  printf("\nmax ---> %d\n", max);
+
+  //Поиск min
+  for (int i = 0; i < n; i++) {
+    printf("%4d", A[i]);
+    if (A[i] <= min1) {
       min2 = min1;
-      min1 = A[i2];
-    } else if (A[i2] <= min2) {
-      min2 = A[i2];
+      min1 = A[i];
+
+      t2 = t1;
+      t1 = i;
+      printf("<--");
+    } else if (A[i] <= min2) {
+      min2 = A[i];
+
+      t2 = i;
+      printf("<--");
     }
   }
-  if (A[n - 1] <= min1) {
-    printf("min2 ---> %d\n", min2);
-    min1 = A[n - 1];
-    printf("min2 ---> %d\n", min2);
-  } else if (A[n - 1] <= min2) {
-    printf("min2 ---> %d\n", min2);
-    min2 = A[n - 1];
-    printf("min2 ---> %d\n", min2);
-  }
+  printf("\nmin1 ---> %d", min1);
+  printf("\nmin2 ---> %d\n", min2);
+
+  A[t1] = A[t1] + max;
+  A[t2] = A[t2] + max;
+
+  for (int i = 0; i < n; i++)
+    printf("%4d", A[i]);
 }
 
 int main() {
@@ -50,16 +62,6 @@ int main() {
   scanf("%d", &n);
   find(n);
 
-  printf("\n");
-  printf("\n");
-  printf("\n");
-  printf("\n");
-
-  printf("min1 ---> %d\n", min1);
-  printf("min2 ---> %d\n", min2);
-  printf("max ---> %d\n", max);
-  g = max + min1 + min2;
-  printf("g --->%d\n", g);
 
   return 0;
 }

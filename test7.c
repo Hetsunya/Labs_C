@@ -1,37 +1,46 @@
+#include <conio.h>
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#define n 10
 
 int main() {
-  int a[n][n];
-  int i, j, k, l, t;
+  int n, m;
+  printf("rows -> ");
+  scanf("%d", &n);
+  printf("columns -> ");
+  scanf("%d", &m);
+  int a[n][m], id, max;
   srand(time(NULL));
-  printf("Array:\n");
-  for (i = 0; i < n; i++) {
-    for (j = 0; j < n; j++) {
-      a[i][j] = rand() % 100;
+
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < m; j++) {
+      a[i][j] = rand() % 50 - 25;
       printf("%4d", a[i][j]);
     }
     printf("\n");
   }
-  do {
-    printf("Enter k and l: ");
-    scanf("%d %d", &k, &l);
-    if ((k == l) || (k < 1) || (k > 10) || (l < 1) || (l > 10))
-      printf("Repeat input!\n");
-  } while ((k == l) || (k < 1) || (k > 10) || (l < 1) || (l > 10));
-  for (j = 0; j < n; j++) {
-    t = a[k - 1][j];
-    a[k - 1][j] = a[l - 1][j];
-    a[l - 1][j] = t;
-  }
-  printf("New Array:\n");
-  for (i = 0; i < n; i++) {
-    for (j = 0; j < n; j++)
+  printf("\n");
+
+  int r = sizeof(a) / sizeof(a[0]);
+  int c = sizeof(a[0]) / sizeof(a[0][0]);
+
+  for (int i = 0; i < r; i++)
+    for (int j = 0; j < r; j++)
+      if (a[i][0] > a[j][0]) {
+        //if ((a[i][0] || a[j][0]) > 100)
+      //  printf("%d --- %d\n", i, j);
+        for (int k = 0; k < n; k++) {
+          int t = a[i][k];
+          a[i][k] = a[j][k];
+          a[j][k] = t;
+        }
+      }
+
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < m; j++) {
       printf("%4d", a[i][j]);
+    }
     printf("\n");
   }
-  getch();
-  return 0;
 }

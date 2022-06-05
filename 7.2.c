@@ -2,44 +2,45 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-void fill(int n, int d, int **a) {
-  for (int i = 0; i < n; i++) {
-    for (int j = 0; j < d; j++) {
-      a[i][j] = rand() % 10 - 5;
-    }
-  }
-  for (int i = 0; i < 6; i++) {
-    for (int j = 0; j < 6; j++) {
-      printf("%4d", a[i][j]);
-      if (j == 6 - 1)
-        printf("\n");
-    }
-  }
-}
+#include <time.h>
 
 int main() {
+  int n, m;
+  printf("rows -> ");
+  scanf("%d", &n);
+  printf("columns -> ");
+  scanf("%d", &m);
+  int a[n][m], id, max;
   srand(time(NULL));
 
-  int columns, rows;
-  printf("columns --->");
-  scanf("%d", &columns);
-  printf("rows --->");
-  scanf("%d", &rows);
-  int matrix[columns][rows];
-
-  fill(columns, rows, matrix);
-
-  int minElem = 0;
-  int maxElem = columns * rows;
-  printf("matrix");
-  for (int i = 0; i < rows; i++) {
-    for (int j = 0; j < columns; j++) {
-      printf("%4d", matrix[i][j]);
-      if (j == columns - 1)
-        printf("\n");
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < m; j++) {
+      a[i][j] = rand() % 50 - 25;
+      printf("%4d", a[i][j]);
     }
+    printf("\n");
   }
+  printf("\n");
 
-  return 0;
+  int r = sizeof(a) / sizeof(a[0]);
+  int c = sizeof(a[0]) / sizeof(a[0][0]);
+
+  for (int i = 0; i < r; i++)
+    for (int j = 0; j < r; j++)
+      if (a[i][0] > a[j][0]) {
+        //if ((a[i][0] || a[j][0]) > 100)
+      //  printf("%d --- %d\n", i, j);
+        for (int k = 0; k < n; k++) {
+          int t = a[i][k];
+          a[i][k] = a[j][k];
+          a[j][k] = t;
+        }
+      }
+
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < m; j++) {
+      printf("%4d", a[i][j]);
+    }
+    printf("\n");
+  }
 }

@@ -1,135 +1,105 @@
-//Здесь без функций
 #include <conio.h>
 #include <malloc.h>
 #include <math.h>
 #include <stdio.h>
-#include <stdlib.h> // Одна строка копируется
+#include <stdlib.h>
 #include <time.h>
 
 //Заполнение
-void fill(int *a[], int n, int m) {
+int fill(int n, int m, int **a) {
   srand(time(NULL));
   for (int i = 0; i < n; i++)
     for (int j = 0; j < m; j++) {
-
-      (*(a+i))[j] = rand() % 10 - 1;
-            //a[i][j] = rand() % 50 - 25;
+      a[i][j] = i * m + j + 1;
+      printf("%d ", a[i][j]);
     }
-  printf("matr v fill\n");
-  for (int i = 0; i < n; i++) {
-    for (int j = 0; j < m; j++)
-      //  printf("%4d", *(a + n * m + i) );
-      printf("%4d", *(a + n * m + i));
-
-    printf("\n");
-  }
-  printf("\n");
-  printf("\n");
-  printf("\n");
-  printf("\n");
-
-  // a - указатель на массив,
-  // n - количество столбцов,
-  // j - индекс строки,
-  // i - индекс столбца.
 }
 //Вывод
-void output(int **a, int n, int m) {
-  int x = 0;
+void output(int n, int m, int **a) {
   for (int i = 0; i < n; i++) {
-    for (int j = 0; j < m; j++) {
-      // printf("%4d", *(a + n * m + i));
-      // printf("element-->%d\n", x);
-      // printf("%4d ", (*(a+i))[j]);
-      // printf("%i\n", *((int *)a + (i * m)));
-    }
+    for (int j = 0; j < m; j++)
+      printf("%4d ", *(*(a + i) + j));
+
     printf("\n");
   }
 }
 //Сортировка
-void sort(int **a, int n, int m) {
-  int i;
-  for (int i = 0; i < m; i++)
-    for (int j = 0; j < n; j++)
-      // if (*(a + m * i + n) > *(a + m * j + n)) {
-      //   printf("%d --- %d\n", i, j);
-      //   for (int k = 0; k < n; k++) {
-      //     int t = *(a + m * i);
-      //     *(a + m * i) = *(a + m * j);
-      //     *(a + m * j) = t;
-      //   }
-      if (*(a + ((n * m) + i)) > *(a + ((n * m) + j))) {
-        printf("%d --- %d\n", i, j);
-        for (int k = 0; k < n; k++) {
-          if (i == 0 || j == 0)
-            continue;
-          // int t = *(a + ((n * m) + i + k));
-          // *(a + ((n * m) + i + k)) = *(a + ((n * m) + j + k));
-          // *(a + ((n * m) + j + k)) = t;
-          int t = a[i][0];
-          a[i][0] = a[j][0];
-          a[j][0] = t;
-        }
-      }
+void sort(int n, int m, int **a, int r) {
 
-  // }
-  // if (a[i][0] > a[j][0])
-  //   for (int k = 0; k < n; k++) {
-  //     int t = a[i][0];
-  //     a[i][0] = a[j][0];
-  //     a[j][0] = t;
-  //   }
-}
+  // for (int i = 0; i < r; i++)
+  //   for (int j = 0; j < r; j++)
+  //     if (a[i][0] > a[j][0]) {
+  //       // if ((a[i][0] || a[j][0]) > 100)
+  //       //  printf("%d --- %d\n", i, j);
+  //       for (int k = 0; k < n; k++) {
+  //         int t = a[i][k];
+  //         a[i][k] = a[j][k];
+  //         a[j][k] = t;
+  //       }
+  //     }
+  for (int i = 0; i < n; i++)
+    for (int j = 0; j < m; j++)
+      if (a[i][0] > a[j][0])
+        for (int k = 0; k < m; k++) {
+          int t = a[i][k];
+          a[i][k] = a[j][k];
+          a[j][k] = t;
+        }
+}// Если n>m или m<n на >= 2 то пиздец
 
 int main() {
-  srand(time(NULL));
   int n, m;
   printf("rows -> ");
   scanf("%d", &n);
+  int r = n;
   printf("columns -> ");
   scanf("%d", &m);
-  // int **a = 0;
-  // a = malloc(sizeof(*a)* (m));
+
   int **a = (int **)malloc(n * sizeof(int *));
+  if (!a) {
+    printf(" Memory allocation error ! \n ");
+    exit(EXIT_FAILURE);
+  }
 
-  int i, j;
-  for (i = 0; i < n; i++)
-    pa[i] = malloc(m * sizeof(int));
-  for (i = 0; i < n; i++)
-    for (j = 0; j < m; j++)
-      a[i][j] = i * m + j + 1;
+  for (int i = 0; i < n; i++)
+    a[i] = malloc(m * sizeof(int));
 
-  // int **pa = ((int **)malloc(n*sizeof(int*)));
+  fill(n, m, a);
+  printf("\nMatrix before sorting:\n");
+  output(n, m, a);
+  sort(n, m, a, r);
+  printf("Matrix after sorting:\n");
+  output(n, m, a);
 
-  // int *c;
-  // c =malloc(sizeof(m));
-  // int *r;
-  // r =malloc(sizeof(n));
+  for (int i = 0; i < n; i++)
+    free(a[i]);
 
-  // Не, ну бля, это пиздец какой то
-  // fill((int**)a,n,m);
-  // output((int**)a,n,m);
-  // sort((int**)a,n,m);
-  // output((int**)a,n,m);
-
-  fill(pa, n, m);
-  printf("\n");
-  printf("\n");
-  printf("\n");
-  printf("\n");
-  printf("\n");
-  printf("Matrix before sorting:\n");
-  output(pa, n, m);
-  sort(pa, n, m);
-  printf(" Matrix after sorting:\n");
-  output(pa, n, m);
-  //
-  // fill(a[n][m],n,m);
-  // output(a[n][m],n,m);
-  // sort(a[n][m],n,m);
-  // output(a[n][m],n,m);
-  // fill(a[n][m],n,m);
-  // output(a[n][m],n,m);
-  // sort(a[n][m],n,m);
-  // output(a[n][m],n,m);
+  free(a);
+  return 0;
 }
+
+// *(*(arr + i) + j) = 5; /*eq. arr[i][j] = 5 */
+
+// II способ требует использования двухуровневых указателей:
+// int **a = (int **)malloc(n * sizeof(int *));
+// if (!a) {
+//   printf(" Memory allocation error !\ n ");
+//   exit(EXIT_FAILURE);
+// }
+//
+// int i, j;
+// for (i = 0; i < n; i++)
+//   p[i] = malloc(m * sizeof(int));
+// for (i = 0; i < n; i++)
+//   for (j = 0; j < m; j++)
+//     a[i][j] = i * m + j + 1;
+//
+// for (i = 0; i < n; i++)
+//   free(a[i]);
+// free(a);
+
+// int **p = (int **)malloc(m * sizeof(int *));
+// for (int i = 0; i < m; i++)
+//   p[i] = (int *)malloc(n * sizeof(int *));
+// m - число строк
+// n - число столбцов

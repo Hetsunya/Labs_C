@@ -1,148 +1,100 @@
+#define _CRT_SECURE_NO_WARNINGS
+
+#include <Windows.h>
+#include <conio.h>
 #include <locale.h>
-#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
-struct detail {
-  char name[50];
-  char detail_shape[50];
-  char amount[50];
-  char material[50];
-  char strength[50];
-} detail_list[10000];
+struct Person {
+  char fam[30];
+  int num;
+  int och;
+} p;
 
-//========
-// init_list
+int input(struct Person *);
+void print(struct Person *, int);
+int delet(struct Person *, int);
 
-void init_list(void) {
-  register int t;
-  for (t = 0; t < 10000; ++t)
-    detail_list[t].name[0] = 0;
-}
+int main() {
+  struct Person per[100];
+  char c;
+  int k = 0;
 
-//===========
-// Menu_select
+  // setlocale(LC_ALL, "Rus");
+  SetConsoleCP(1251); //установка кодовой страницы win-cp 1251 в поток ввода
+  SetConsoleOutputCP(1251); //установка кодовой страницы win-cp 1251 в поток
 
-int menu_select(void) {
-  char s[80];
-  int c;
-  printf("1. Ââåäèòå èìÿ\n");
-  printf("2. Óäàëèòå èìÿ\n");
-  printf("3. Âûâåäèòå ñïèñîê\n");
-  printf("4. Âûõîä\n");
+  while (1) {
+    printf("\n1. Ввести данные о спортсменах.\n");
+    printf("2. Вывести список спортсменов.\n");
+    printf("3. Удалить данные о спортсмене с минимальным количеством очков.\n");
+    printf("4. Выход.\n");
 
-  do {
-    printf("\nÂâåäèòå íîìåð íóæíîãî ïóíêòà: ");
-    fgets(s);
-    c = atoi(s);
-  } while (c < 0 || c > 4);
-  return c;
-}
+    c = _getch();
 
-//==============
-// FIND_FREE
-
-int find_free(void) {
-  register int t;
-  for (t = 0; detail_list[t].name[0] && t < 10000; ++t)
-    ;
-
-  if (t == 10000)
-    return -1;
-  return t;
-}
-
-//=========
-// ENTER
-
-void enter(void) {
-  int slot;
-  char s[80]
-
-      ;
-  slot = find_free();
-  if (slot == -1) {
-    printf("\nÑïèñîê çàïîëíåí");
-    return;
-
-    printf("Ââåäèòå èìÿ: ");
-    gets(detail_list[slot].name);
-
-    printf("Ââåäèòå ôîðìó äåòåëè: ");
-    gets(detail_list[slot].detail_shape);
-
-    printf("Ââåäèòå îáúåì äåòàëè: ");
-    gets(detail_list[slot].amount);
-
-    printf("Ââåäèòå ìàòåðèàë äåòàëè");
-    gets(detail_list[slot].material);
-
-    printf("Ââåäèòå ïðî÷íîñòü äåòàëè");
-    gets(detail_list[slot].strength);
-  }
-}
-
-//==============
-// Deleted
-
-void deleted(void) {
-  register int slot;
-  char s[80];
-
-  printf("Ââåäèòå ¹ çàïèñè: ");
-  gets(s);
-  slot = atoi(s);
-  if (slot >= 0 && slot < 10000)
-
-    detail_list[0].name[0] = 0;
-}
-
-//=================
-// LIST
-
-void list(void) {
-  register int t;
-
-  for (t = 0; t < 10000; ++t) {
-    if (detail_list[t].name[0]) {
-      printf("%s\n", detail_list[t].name);
-      printf("%s\n", detail_list[t].detail_shape);
-      printf("%s\n", detail_list[t].amount);
-      printf("%s\n", detail_list[t].material);
-      printf("%s\n", detail_list[t].strength);
+    switch (c) {
+    case '1':
+      k = input(per);
+      break;
+    case '2':
+      print(per, k);
+      break;
+    case '3':
+      k = delet(per, k);
+      break;
+    case '4':
+      return 0;
+      break;
+    default:
+      printf("Неверно выбран пункт меню!\n\n");
     }
   }
-  printf("\n\n");
-}
-
-//==========
-//ÃË.ÔÓÍÊÖÈß
-
-int main(void) {
-
-  setlocale(LC_ALL, "rus");
-
-  char choice;
-  init_list();
-
-  for (;;) {
-    choice = menu_select();
-    switch (choice) {
-    case 1:
-      enter();
-      break;
-    case 2:
-      deleted();
-      break;
-    case 3:
-      list();
-      break;
-    case 4:
-      exit(0);
-    }
-  }
-  system("pause");
   return 0;
-  ;
+}
+
+int input(struct Person *per) //ввод данных о спортсменах
+{
+  int i;
+  int count = 0;
+  do {
+    printf("Введите количество спортсменов [1-100]: ");
+    scanf("%d", &count);
+  } while (count < 1 || count > 100);
+
+  printf("Введите данные спортсменов через пробел - фамилия, номер, очки.\n");
+  for (i = 0; i < count; i++) {
+    scanf("%s %d %d", per[i].fam, &per[i].num, &per[i].och);
+  }
+  return count;
+}
+
+void print(struct Person *per, int count) //печать введенных данных
+{
+  int i;
+  if (count) {
+    for (i = 0; i < count; i++) {
+      printf("Фамилия спортсмена: %s, номер: %d, количество очков: %d\n",
+             per[i].fam, per[i].num, per[i].och);
+    }
+  } else
+    printf("Массив пуст!\n");
+}
+int delet(struct Person *per, int count) {
+  int i, imin;
+
+  if (count) {
+    imin = 0;
+    for (i = 1; i < count; ++i)
+      if (per[imin].och > per[i].och)
+        imin = i;
+    printf("Информация о спортсмене с очками = %d удалена\n", per[imin].och);
+    for (i = imin; i < count - 1; ++i)
+      per[i] = per[i + 1];
+    count--;
+  } else {
+    printf("Массив пуст!\n");
+    count = 0;
+  }
+  return count;
 }
