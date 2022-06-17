@@ -1,31 +1,41 @@
 #include <conio.h>
 #include <ctype.h>
-#include <stdbool.h>
 #include <stdio.h>
+
+// int mygetch() {
+//   char c;
+//   while (1) {
+//     /* code */
+//   char c = getchar();
+//
+//   if (isalnum(c)) {
+//     printf("%d", (int)c);
+//   }
+//   if (iscntrl(c))
+//      if ((c = getchar()) != '\n') break;
+//     return 0;
+//   printf("%c", isprint(c));
+// };
+//   // isdigit(c);
+//   return c;
+// }
+
 int main() {
-  char c;
-  _Bool inf = true;
   printf("Enter Insert for exit\n");
-  do {
-    c = getchar();
-    char exit = iscntrl(c);
-    //
-    // if ( iscntrl(c) != 0 )
-    //   goto exit;
-    //
-    // system("cls");
-    // if (iscntrl(c))
-      if ((int)c == 45)
-        goto exit;
+  // char c = mygetch();
+    char c;
+    while (1) {
+    char c = getchar();
 
     if (isalnum(c)) {
-      printf("%x", (int)c);
-      continue;
+      printf("%d", (int)c);
     }
-    printf("%c", (int)c);
+    // if (iscntrl(c))
+    //    if ((c = getchar()) != '\n') break;
+    //   return 0;
+    printf("%d", c);
+    printf("\n");
+  };
     // isdigit(c);
-  } while (inf == true);
-
-exit:
   return 0;
 }

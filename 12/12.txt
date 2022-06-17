@@ -1,0 +1,4 @@
+3|Surgut|14|20|0|50
+5|Surgut|21|15|11|0
+10|Sevastopol|15|40|12|0
+45|Sevastopol|18|0|19|30

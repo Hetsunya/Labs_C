@@ -4,23 +4,18 @@
 
 double F1(double x) // 0.0 <= x <= 0.6
 {
-  double f;
-  f = 1 / (1 + 25 * pow(x, 2));
-  return f;
+  return 1 / (1 + 25 * pow(x, 2));
 }
 
 double F2(double x) // 0,6 < x <= 1.6
 {
-  double f;
-  f = (x + 2 * pow(x, 4)) * pow(sin(x), 2);
-  return f;
+  return ((x + 2 * pow(x, 4)) * sin(pow(x, 2)));
 }
 
 double main() {
-
   int N;
   scanf("%d", &N);
-  double S = 0, x, a, b, h;
+  double S = 0, x, a, b, h, d;
   a = 0;
   b = 1.6;
 
@@ -47,3 +42,5 @@ double main() {
   printf("%.04f", S);
   return 0;
 }
+// 0.1 +0.138+ 0.2+ 0.3+0.5+0.8+1 = 3.038
+//  1.5 + 1.01 + 2

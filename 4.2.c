@@ -1,49 +1,39 @@
+#include <conio.h>
 #include <math.h>
 #include <stdio.h>
-// при N = 4 ---- 4.55
 
-double F1(double x) // 0.0 <= x <= 0.6
-{
-  double f;
-  f = 1 / (1 + 25 * pow(x, 2));
-  return f;
+double F(double x) {
+  // return x >= 0 && x <= 0.6 ? (1 / (1 + 25 * pow(x, 2)))  : ((x + 2 * pow(x,
+  // 4)) * pow(sin(x), 2));//8
+  return x >= 0 && x <= 0.6 ? (1 / (1 + 25 * pow(x, 2)))
+                            : ((x + 2 * pow(x, 4)) * sin(pow(x, 2))); // 8
+  // return x >= 0 && x <= 0.25 ? exp(sin(x)) : exp(x) - (1 / sqrt(x)) ;//2
 }
 
-double F2(double x) // 0,6 < x <= 1.6
-{
-  double f;
-  f = (x + 2 * pow(x, 4)) * pow(sin(x), 2);
-  return f;
-}
-
-double main() {
-
+int main() {
   int N;
   scanf("%d", &N);
   double S = 0, x, a, b, h;
+  // 2 Вариант
+  a = 0;
+  b = 0.5;
+  // 8(мой) Вариант
   a = 0;
   b = 1.6;
-
+  //отрезок [a, b] разобьем на N частей
   h = (b - a) / N;
   x = a + h;
   while (x < b) {
-    if (x <= 0.6) {
-      S = S + 4 * F1(x);
-      x = x + h;
-      if (x >= b)
-        break;
-      S = S + 2 * F1(x);
-      x = x + h;
-    } else {
-      S = S + 4 * F2(x);
-      x = x + h;
-      if (x >= b)
-        break;
-      S = S + 2 * F2(x);
-      x = x + h;
-    }
+    S = S + 4 * F(x);
+    x = x + h;
+    //проверяем не вышло ли значение x за пределы полуинтервала [a, b)
+    if (x >= b)
+      break;
+    S = S + 2 * F(x);
+    x = x + h;
   }
-  S = (h / 3) * (S + F2(a) + F2(b));
-  printf("%.04f", S);
+  S = (h / 3) * (S + F(a) + F(b));
+  printf("%0.5f", S);
+  _getch();
   return 0;
 }
