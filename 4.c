@@ -1,6 +1,5 @@
 #include <math.h>
 #include <stdio.h>
-// при N = 4 ---- 4.55
 
 double F1(double x) // 0.0 <= x <= 0.6
 {

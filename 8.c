@@ -1,4 +1,4 @@
-#include <conio.h>
+// #include <conio.h>
 #include <ctype.h>
 #include <stdio.h>
 
@@ -10,7 +10,7 @@
 //
 //   if (isalnum(c)) {
 //     printf("%d", (int)c);
-//   }
+//   }getc
 //   if (iscntrl(c))
 //      if ((c = getchar()) != '\n') break;
 //     return 0;
@@ -21,7 +21,7 @@
 // }
 
 int main() {
-  printf("Enter Insert for exit\n");
+  printf("Enter Insert for exit\n");//isn = 45
   // char c = mygetch();
     char c;
     while (1) {

@@ -10,7 +10,7 @@ void str() {
   fgets(str, 100, stdin);
   char *w[50];
   int wcount = 0;
-  char delim [] = ", ";
+  char delim [] = ", \n";
   // for (char *p = strtok(str, " "); p; p = strtok(0, " "))
    for (char *p = strtok(str, delim); p; p = strtok(0, delim))
     w[wcount++] = p;

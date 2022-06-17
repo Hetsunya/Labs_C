@@ -1,19 +1,3 @@
-// Задания для самостоятельного выполнения
-// Добавить в код своего варианта лабораторной работы №11 функции
-// сохранения данных в файл перед
-// завершением работы программы и их загрузки из файла при старте программы, для
-// обеспечения хранения данных между запусками. Требования и ограничения
-// Предусмотреть возможноть просмотра всего списка, добавления и удаления
-// записей. Необходимые операции с записями реализовать в виде отдельных
-// функций Написать программу, реализующую
-// считывание данных с клавиатуры, их
-// обработку и вывод на экран результатов
-// запроса согласно вашему варианту. Требования и ограничения Предусмотреть
-// возможноть просмотра всего списка, добавления и удаления записей. Необходимые
-// операции с записями
-// реализовать в виде отдельных функций .
-// Междугородние автобусы. Номер автобуса, пункты и время отправления и
-// прибытия. Получить данные об автобусах, следующих в заданный город.
 // struct tm {
 //    int tm_sec;   // seconds of minutes from 0 to 61
 //    int tm_min;   // minutes of hour from 0 to 59
@@ -25,8 +9,7 @@
 //    int tm_yday;  // days since January 1st
 //    int tm_isdst; // hours of daylight savings time
 // }
-//Работает удаление не рпботает добавление
-#include <conio.h>
+// #include <conio.h>
 #include <ctype.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -47,15 +30,19 @@ struct buses {
   float arr_time;       // arrival time - время прибытия
   struct tm time_dep;
   struct tm time_arr;
-  // char dep_time[15];       // departure time - время отбытия
-  // char arr_time[15];
 } buses;
-// struct buses bus[10];
 
 int input(struct buses *);
 void print(struct buses *);
 void delet(struct buses *);
 void find(struct buses *);
+
+// Игнорирование символов
+void flush_input(void) {
+  char c;
+  while (scanf("%c", &c) == 1 && c != '\n')
+    ;
+}
 
 // запись структуры в файл
 void save(FILE *f, struct buses *bus) {
@@ -69,21 +56,12 @@ void save(FILE *f, struct buses *bus) {
 void load(FILE *f, struct buses *bus) {
   char str[255];
   char *istr;
-  // atoi to int5
-  // atof to float
   while (fgets(str, 256, f) != NULL) {
     istr = strtok(str, "|");
-    // sprintf(bus[count].number, "%d", istr);
     bus[count].number = atoi(istr);
 
     istr = strtok(NULL, "|");
     sprintf(bus[count].destination, "%s", istr);
-
-    // istr = strtok(NULL, "|");
-    // bus[count].dep_time = atof(istr);
-    //
-    // istr = strtok(NULL, "|");
-    // bus[count].arr_time = atof(istr);
 
     istr = strtok(NULL, "|");
     bus[count].time_dep.tm_hour = atoi(istr);
@@ -102,15 +80,9 @@ void load(FILE *f, struct buses *bus) {
 }
 
 int main() {
-
-  // struct buses bus[100] = {1, "Surgut", 15.00, 23.40};
   struct buses bus[100];
   FILE *file = fopen("12.txt", "r");
-  // Получение предыдущих данных
-  // FILE *file = fopen("12.txt", "r");
-  // load(file, bus);
-  // fclose(file);
-
+  int n;
   char c;
 
   while (1) {
@@ -121,45 +93,41 @@ int main() {
     printf("5 to load the database from a file.\n");
     printf("6 to save the database to a file.\n");
     printf("7. Exit.\n");
-    c = _getch();
-    switch (c) {
-    case '1':
-      system("cls");
-      int k = input(bus);
-      break;
-    case '2':
-      system("cls");
-      print(bus);
-      break;
-    case '3':
+    // c = getchar();
+    // Получение запроса
+    printf("--> ");
+    scanf("%d", &n);
+    if (n == 1) {
       // system("cls");
+      system("clear");
+      int k = input(bus);
+    } else if (n == 2) {
+      // system("cls");
+      system("clear");
+      print(bus);
+    } else if (n == 3)
+
       delet(bus);
-      break;
-    case '4':
-      system("cls");
+
+    else if (n == 4) {
+      // system("cls");
+      system("clear");
       find(bus);
-      break;
-    case '5':
-      system("cls");
+    } else if (n == 5) {
+      // system("cls");
+      system("clear");
       load(file, bus);
       fclose(file);
-      break;
-    case '6':
-      system("cls");
+    } else if (n == 6) {
+      // system("cls");
+      system("clear");
       file = fopen("12.txt", "w");
       save(file, bus);
       fclose(file);
-      break;
-    case '7':
+    } else if (n == 7)
+
       return 0;
-    default:
-      system("cls");
-      printf("\nthe menu item is selected incorrectly!\n\n");
-    }
   }
-  // file = fopen("12.txt", "w");
-  // save(file, bus, k);
-  // fclose(file);
 }
 //Добавление
 int input(struct buses *bus) {
@@ -190,25 +158,25 @@ int input(struct buses *bus) {
     bus[i].time_arr.tm_hour = hour;
     bus[i].time_arr.tm_min = min;
   }
-  // count++;
+  count++;
 }
 
 //Вывод информации о существующих
 void print(struct buses bus[]) {
   if (!count)
-  printf("array empty\n");
+    printf("array empty\n");
   else
-  for (int i = 0; i < count; i++) {
-    char d_time[15];
-    char a_time[15];
-    strftime(d_time, 15, "%H.%M", &bus[i].time_dep);
-    strftime(a_time, 15, "%H.%M", &bus[i].time_arr);
-    printf("[%d]Bus number: %d, Destination: %s, Departure time: %s, Arrival "
-    "time %s\n",
-    i + 1, bus[i].number, bus[i].destination,
-    // bus[i].dep_time, bus[i].arr_time);
-    d_time, a_time);
-  }
+    for (int i = 0; i < count; i++) {
+      char d_time[15];
+      char a_time[15];
+      strftime(d_time, 15, "%H.%M", &bus[i].time_dep);
+      strftime(a_time, 15, "%H.%M", &bus[i].time_arr);
+      printf("[%d]Bus number: %d, Destination: %s, Departure time: %s, Arrival "
+             "time %s\n",
+             i + 1, bus[i].number, bus[i].destination,
+             // bus[i].dep_time, bus[i].arr_time);
+             d_time, a_time);
+    }
 }
 
 //Удаление
