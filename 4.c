@@ -1,45 +1,30 @@
 #include <math.h>
 #include <stdio.h>
 
-double F1(double x) // 0.0 <= x <= 0.6
-{
-  return 1 / (1 + 25 * pow(x, 2));
-}
+int main() {
+  double n;
+  double sum = 0;
+  double h = 0.02;
+  double old_I = 0;
 
-double F2(double x) // 0,6 < x <= 1.6
-{
-  return ((x + 2 * pow(x, 4)) * sin(pow(x, 2)));
-}
+  printf("Enter n: ");
+  scanf("%lf", &n);
 
-double main() {
-  int N;
-  scanf("%d", &N);
-  double S = 0, x, a, b, h, d;
-  a = 0;
-  b = 1.6;
-
-  h = (b - a) / N;
-  x = a + h;
-  while (x < b) {
-    if (x <= 0.6) {
-      S = S + 4 * F1(x);
-      x = x + h;
-      if (x >= b)
-        break;
-      S = S + 2 * F1(x);
-      x = x + h;
-    } else {
-      S = S + 4 * F2(x);
-      x = x + h;
-      if (x >= b)
-        break;
-      S = S + 2 * F2(x);
-      x = x + h;
+  do {
+    old_I = sum;
+    sum = 0;
+    h /= 2.0;
+    for (int i = 0; i < 1.6 / h; i++)
+    // i * h + h / 2.0
+    {
+      if (i * h <= 0.6)
+        sum += 1 / (1 + 25 * pow(i * h + h / 2.0, 2));
+      else
+        sum += ((i * h + h / 2.0 + 2 * pow(i * h + h / 2.0, 4)) *
+                sin(pow(i * h + h / 2.0, 2)));
     }
-  }
-  S = (h / 3) * (S + F2(a) + F2(b));
-  printf("%.04f", S);
+    sum *= h;
+  } while (fabs(sum - old_I) / 3.0 >= n);
+  printf("%lf", sum);
   return 0;
 }
-// 0.1 +0.138+ 0.2+ 0.3+0.5+0.8+1 = 3.038
-//  1.5 + 1.01 + 2

@@ -25,7 +25,7 @@ void output(int r, int c, int a[r][c]) {
 void sort(int r, int c, int a[r][c]) {
   int t;
   for (int i = 0; i < r; i++)
-    for (int j = 0; j < r; j++)
+    for (int j = i; j < r; j++)
       if (a[i][0] > a[j][0]) {
         // if ((a[i][0] || a[j][0]) > 100)
         //  printf("%d --- %d\n", i, j);

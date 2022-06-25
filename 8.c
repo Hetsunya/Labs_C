@@ -1,41 +1,36 @@
-// #include <conio.h>
-#include <ctype.h>
+#include <ctype.h>(int)
 #include <stdio.h>
-
-// int mygetch() {
-//   char c;
-//   while (1) {
-//     /* code */
-//   char c = getchar();
-//
-//   if (isalnum(c)) {
-//     printf("%d", (int)c);
-//   }getc
-//   if (iscntrl(c))
-//      if ((c = getchar()) != '\n') break;
-//     return 0;
-//   printf("%c", isprint(c));
-// };
-//   // isdigit(c);
-//   return c;
-// }
+#include <stdlib.h>
+#include <string.h>
+// #include <conio.h>
 
 int main() {
-  printf("Enter Insert for exit\n");//isn = 45
-  // char c = mygetch();
-    char c;
-    while (1) {
-    char c = getchar();
-
-    if (isalnum(c)) {
-      printf("%d", (int)c);
+  system("chcp 65001");
+  printf("Введите строку: \n");
+  int count_alpha = 0;
+  unsigned char c;
+  while (1) {
+    // Обработка PageUP
+    c = getc();
+    if (c == 0) {
+      c = getc();
+      if (c == 73) {
+        break;
+      }
     }
-    // if (iscntrl(c))
-    //    if ((c = getchar()) != '\n') break;
-    //   return 0;
-    printf("%d", c);
-    printf("\n");
-  };
-    // isdigit(c);
+    // Обработка F10-F12
+    else if (c == 224) {
+      c = getc();
+      continue;
+    }
+    // Подсчет букв и вывод символов
+    else {
+      if (isalpha(c))
+        count_alpha++;
+      if (c != 13)
+        printf("%c", c);
+    }
+  }
+  printf("\nВведено букв: %d\n", count_alpha);
   return 0;
 }
